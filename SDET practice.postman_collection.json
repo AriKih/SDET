@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "aae4a688-d371-4996-b955-25a4cefd0d44",
+		"_postman_id": "2fe966fd-8dbd-46af-af14-c1c9b2b6422a",
 		"name": "SDET practice",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -40,15 +40,6 @@
 				},
 				"method": "POST",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "{{TrelloApi}}/1/boards?name={{BoardName}}&token={{TokenTrello}}&key={{KeyTrello}}&defaultLists=false",
 					"host": [
@@ -433,11 +424,11 @@
 		},
 		{
 			"key": "KeyTrello",
-			"value": "76a26f6c7a34ea2e7b1d27cca552b6c0"
+			"value": "6ea23db6e431ffccc5a9c8bbaa5fa5b0"
 		},
 		{
 			"key": "TokenTrello",
-			"value": "ae8bb7b4887d4a35314080f760a3ed5184c1b497b153c2de9e3819314e27e482"
+			"value": "9eaf253d8328b2e9765b05e1505d0de8fbbc3bae112dd86e9327b52cde5ae431"
 		},
 		{
 			"key": "IdBoard",
@@ -457,31 +448,19 @@
 		},
 		{
 			"key": "BoardName",
-			"value": ""
+			"value": "Practica2"
 		},
 		{
 			"key": "ListName",
 			"value": "ToDo"
 		},
 		{
-			"key": "ListName",
-			"value": ""
-		},
-		{
 			"key": "ListName2",
 			"value": "Done"
 		},
 		{
-			"key": "ListName2",
-			"value": ""
-		},
-		{
 			"key": "CardName",
 			"value": "Card create using postman"
-		},
-		{
-			"key": "CardName",
-			"value": ""
 		}
 	]
 }
