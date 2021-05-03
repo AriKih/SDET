@@ -11,7 +11,7 @@ public class AbstractPageStepDefinition {
 			if(driver==null){
 				System.setProperty("webdriver.chrome.driver", "C:\\Users\\AriadnaBereniceCihMa\\eclipse-workspace\\cucumber\\driver\\chromedriver.exe");
 				driver= new ChromeDriver();
-				 
+				driver.manage().window().maximize();
 				
 			}
 			return driver;
