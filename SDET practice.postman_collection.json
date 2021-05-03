@@ -1,0 +1,466 @@
+{
+	"info": {
+		"_postman_id": "2fe966fd-8dbd-46af-af14-c1c9b2b6422a",
+		"name": "SDET practice",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Scn01.CreateBoard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//pm.collectionVariables.set(\"KeyTrello\", \"76a26f6c7a34ea2e7b1d27cca552b6c0\");\r",
+							"//pm.collectionVariables.set(\"TokenTrello\", \"ae8bb7b4887d4a35314080f760a3ed5184c1b497b153c2de9e3819314e27e482\");\r",
+							"\r",
+							"//assertion, validate an OK response. \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Name to equal TestfromPostman\",function(){\r",
+							"const data=JSON.parse(responseBody);\r",
+							"pm.expect(data[\"name\"]).to.eql(pm.collectionVariables.get(\"BoardName\"));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"//set an variablefrom response\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"IdBoard\", jsonData[\"id\"]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{TrelloApi}}/1/boards?name={{BoardName}}&token={{TokenTrello}}&key={{KeyTrello}}&defaultLists=false",
+					"host": [
+						"{{TrelloApi}}"
+					],
+					"path": [
+						"1",
+						"boards"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{BoardName}}"
+						},
+						{
+							"key": "token",
+							"value": "{{TokenTrello}}"
+						},
+						{
+							"key": "key",
+							"value": "{{KeyTrello}}"
+						},
+						{
+							"key": "defaultLists",
+							"value": "false"
+						}
+					]
+				},
+				"description": "Create Tello Board"
+			},
+			"response": []
+		},
+		{
+			"name": "Scn02.CreateListToDo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//assertion, validate an OK response. \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Name List equal ToDo\",function(){\r",
+							"const data=pm.response.json();\r",
+							"pm.expect(data.name).to.eql(pm.collectionVariables.get(\"ListName\"));\r",
+							"});\r",
+							"\r",
+							"//set a collection variable\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"IdList\", jsonData[\"id\"]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{TrelloApi}}/1/lists?name={{ListName}}&idBoard={{IdBoard}}&token={{TokenTrello}}&key={{KeyTrello}}",
+					"host": [
+						"{{TrelloApi}}"
+					],
+					"path": [
+						"1",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{ListName}}"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{IdBoard}}"
+						},
+						{
+							"key": "token",
+							"value": "{{TokenTrello}}"
+						},
+						{
+							"key": "key",
+							"value": "{{KeyTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scn03.UpdateList",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//assertion, validate an OK response. \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});\r",
+							"//Validar nombre antes y nombre despues\r",
+							"pm.test(\"Name List2 equal Done\",function(){\r",
+							"const data=pm.response.json();\r",
+							"pm.expect(data.name).to.eql(pm.collectionVariables.get(\"ListName2\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{TrelloApi}}/1/lists/{{IdList}}?name={{ListName2}}&key={{KeyTrello}}&token={{TokenTrello}}",
+					"host": [
+						"{{TrelloApi}}"
+					],
+					"path": [
+						"1",
+						"lists",
+						"{{IdList}}"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{ListName2}}"
+						},
+						{
+							"key": "key",
+							"value": "{{KeyTrello}}"
+						},
+						{
+							"key": "token",
+							"value": "{{TokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scn04.CreateListMove",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//assertion, validate an OK response. \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"List 1 ToDo\",function(){\r",
+							"const data=pm.response.json();\r",
+							"pm.expect(data.name).to.eql(pm.collectionVariables.get(\"ListName\"));\r",
+							"});\r",
+							"\r",
+							"//set a varaiable\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"IdList2\", jsonData[\"id\"]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{TrelloApi}}/1/lists?name={{ListName}}&idBoard={{IdBoard}}&token={{TokenTrello}}&key={{KeyTrello}}",
+					"host": [
+						"{{TrelloApi}}"
+					],
+					"path": [
+						"1",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{ListName}}"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{IdBoard}}"
+						},
+						{
+							"key": "token",
+							"value": "{{TokenTrello}}"
+						},
+						{
+							"key": "key",
+							"value": "{{KeyTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scn05.createCard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//assertion, validate an OK response. \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"IdCard\", jsonData[\"id\"]);\r",
+							"\r",
+							"pm.test(\"CadrName != empty\",function(){\r",
+							"const data=pm.response.json();\r",
+							"pm.expect(data.name).to.eql(pm.collectionVariables.get(\"CardName\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{TrelloApi}}/1/cards?idList={{IdList2}}&token={{TokenTrello}}&key={{KeyTrello}}&name={{CardName}}",
+					"host": [
+						"{{TrelloApi}}"
+					],
+					"path": [
+						"1",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{IdList2}}"
+						},
+						{
+							"key": "token",
+							"value": "{{TokenTrello}}"
+						},
+						{
+							"key": "key",
+							"value": "{{KeyTrello}}"
+						},
+						{
+							"key": "name",
+							"value": "{{CardName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scn06.MoveCard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//assertion, validate an OK response. \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*\r",
+							"pm.test(\"List2 exist\",function(){\r",
+							"const data=pm.response.json();\r",
+							"pm.expect(data.name).to.eql(pm.collectionVariables.get(\"ListName\"));\r",
+							"});*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{TrelloApi}}/1/cards/{{IdCard}}?idList={{IdList}}&key={{KeyTrello}}&token={{TokenTrello}}",
+					"host": [
+						"{{TrelloApi}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						"{{IdCard}}"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{IdList}}"
+						},
+						{
+							"key": "key",
+							"value": "{{KeyTrello}}"
+						},
+						{
+							"key": "token",
+							"value": "{{TokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scn07.DeleteBoard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//assertion, validate an OK response. \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{TrelloApi}}/1/boards/{{IdBoard}}?token={{TokenTrello}}&key={{KeyTrello}}",
+					"host": [
+						"{{TrelloApi}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						"{{IdBoard}}"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{TokenTrello}}"
+						},
+						{
+							"key": "key",
+							"value": "{{KeyTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "TrelloApi",
+			"value": "https://api.trello.com"
+		},
+		{
+			"key": "KeyTrello",
+			"value": "6ea23db6e431ffccc5a9c8bbaa5fa5b0"
+		},
+		{
+			"key": "TokenTrello",
+			"value": "9eaf253d8328b2e9765b05e1505d0de8fbbc3bae112dd86e9327b52cde5ae431"
+		},
+		{
+			"key": "IdBoard",
+			"value": ""
+		},
+		{
+			"key": "IdList",
+			"value": ""
+		},
+		{
+			"key": "IdCard",
+			"value": ""
+		},
+		{
+			"key": "IdList2",
+			"value": ""
+		},
+		{
+			"key": "BoardName",
+			"value": "Practica2"
+		},
+		{
+			"key": "ListName",
+			"value": "ToDo"
+		},
+		{
+			"key": "ListName2",
+			"value": "Done"
+		},
+		{
+			"key": "CardName",
+			"value": "Card create using postman"
+		}
+	]
+}
